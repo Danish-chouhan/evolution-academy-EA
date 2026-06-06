@@ -17,7 +17,7 @@ export default function HeroSection() {
           
           {/* Left Content */}
           <div className="flex-1 text-center md:text-left pt-4 md:pt-8">
-            <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] lg:text-[4rem] font-black text-gray-900 leading-[1.1] mb-6">
+            <h1 className="text-3xl sm:text-5xl md:text-[3.5rem] lg:text-[4rem] font-black text-gray-900 leading-[1.2] md:leading-[1.1] mb-4 md:mb-6">
               <EditableText 
                 contentKey="hero-title-1" 
                 defaultText="Bharat ka <span class='text-brand-purple'>Vishwast &</span><br />" 
@@ -41,12 +41,12 @@ export default function HeroSection() {
               />
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center gap-6 justify-center md:justify-start">
-              <Link href="/coming-soon?feature=Explore Batches" className="bg-brand-purple text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#4a3bc0] transition-colors w-full sm:w-auto shadow-xl shadow-brand-purple/20 text-center">
+            <div className="flex flex-row items-stretch gap-3 sm:gap-6 justify-center md:justify-start w-full px-2 sm:px-0">
+              <Link href="/coming-soon?feature=Explore Batches" className="flex-1 bg-brand-purple text-white px-2 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-xs sm:text-lg hover:bg-[#4a3bc0] transition-colors shadow-xl shadow-brand-purple/20 flex items-center justify-center text-center">
                 <EditableText contentKey="hero-btn1" defaultText="Batches Dekho" />
               </Link>
-              <Link href="/coming-soon?feature=Watch Video Demo" className="flex items-center justify-center gap-2 text-gray-900 font-bold px-6 py-4 rounded-xl hover:bg-gray-50 transition-colors border-2 border-gray-100">
-                <PlayCircle className="text-brand-orange" size={24} fill="currentColor" />
+              <Link href="/coming-soon?feature=Watch Video Demo" className="flex-1 flex items-center justify-center gap-1 sm:gap-2 text-gray-900 font-bold px-2 sm:px-6 py-3 sm:py-4 rounded-xl hover:bg-gray-50 transition-colors border-2 border-gray-100 text-xs sm:text-lg text-center">
+                <PlayCircle className="text-brand-orange w-4 h-4 sm:w-6 sm:h-6 shrink-0" fill="currentColor" />
                 <EditableText contentKey="hero-btn2" defaultText="Video Dekho" />
               </Link>
             </div>

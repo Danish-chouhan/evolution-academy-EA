@@ -1,23 +1,46 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, Plus, Minus } from 'lucide-react';
 import Link from 'next/link';
 import EditableText from '../admin/EditableText';
 import EditableImage from '../admin/EditableImage';
+import { useContent } from '../admin/ContentProvider';
 
 export default function AppDownloadPromo() {
+  const { isAdmin, content, updateContent } = useContent();
   const [activeIndex, setActiveIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
 
-  const slides = [
-    { id: 0, key: 'app-img-1', src: 'https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&fit=crop&q=80' },
-    { id: 1, key: 'app-img-2', src: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80' },
-    { id: 2, key: 'app-img-3', src: 'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&q=80' },
+  const slideCount = parseInt(content['app-slider-count'] || '3', 10);
+  
+  const defaultImages = [
+    'https://images.unsplash.com/photo-1616423640778-28d1b53229bd?auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1555774698-0b77e0d5fac6?auto=format&fit=crop&q=80'
   ];
+
+  const slides = Array.from({ length: slideCount }).map((_, idx) => ({
+    id: idx,
+    key: `app-img-${idx + 1}`,
+    src: defaultImages[idx] || defaultImages[0]
+  }));
 
   const nextSlide = () => setActiveIndex((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setActiveIndex((prev) => (prev - 1 + slides.length) % slides.length);
+
+  const handleAddSlide = () => {
+    updateContent('app-slider-count', (slideCount + 1).toString());
+  };
+
+  const handleRemoveSlide = () => {
+    if (slideCount > 1) {
+      updateContent('app-slider-count', (slideCount - 1).toString());
+      if (activeIndex >= slideCount - 1) {
+        setActiveIndex(slideCount - 2);
+      }
+    }
+  };
 
   const handleTouchStart = (e: React.TouchEvent) => setTouchStart(e.touches[0].clientX);
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -75,21 +98,57 @@ export default function AppDownloadPromo() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
+            {isAdmin && (
+              <div className="absolute top-0 right-0 z-50 flex flex-col gap-2 bg-white/90 p-2 rounded-xl shadow-lg border border-purple-100 backdrop-blur-sm">
+                <div className="text-[10px] font-bold text-center text-gray-500 mb-1 uppercase tracking-wider">Screens: {slideCount}</div>
+                <button 
+                  onClick={handleAddSlide}
+                  className="flex items-center gap-1 bg-brand-purple text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-700 transition"
+                >
+                  <Plus size={14} /> Add
+                </button>
+                <button 
+                  onClick={handleRemoveSlide}
+                  disabled={slideCount <= 1}
+                  className="flex items-center gap-1 bg-red-50 text-red-600 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-red-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Minus size={14} /> Remove
+                </button>
+              </div>
+            )}
+            
             {slides.map((slide, index) => {
               let offset = index - activeIndex;
-              if (offset < -1) offset += slides.length;
-              if (offset > 1) offset -= slides.length;
+              if (offset < -1 && slides.length > 3) {
+                // Normalize offsets to handle circular wrapping correctly
+                if (offset < -Math.floor(slides.length / 2)) offset += slides.length;
+              }
+              if (offset > 1 && slides.length > 3) {
+                if (offset > Math.floor(slides.length / 2)) offset -= slides.length;
+              }
+              
+              // For exactly 3 slides or less, the simple wrap works. For >3, we only show neighbors.
+              if (slides.length <= 3) {
+                if (offset < -1) offset += slides.length;
+                if (offset > 1) offset -= slides.length;
+              }
 
               const isFront = offset === 0;
-              const isRight = offset > 0;
-              const isLeft = offset < 0;
+              const isRight = offset === 1;
+              const isLeft = offset === -1;
+              const isHidden = !isFront && !isRight && !isLeft;
 
               let translateX = '-50%';
               let scale = 1;
               let zIndex = 30;
               let opacity = 1;
 
-              if (isRight) {
+              if (isHidden) {
+                 translateX = offset > 0 ? 'calc(-50% + 60%)' : 'calc(-50% - 60%)';
+                 scale = 0.7;
+                 zIndex = 10;
+                 opacity = 0;
+              } else if (isRight) {
                 translateX = 'calc(-50% + 35%)';
                 scale = 0.85;
                 zIndex = 20;
