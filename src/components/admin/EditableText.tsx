@@ -186,7 +186,7 @@ export default function EditableText({
                          newSegments[i].content = e.target.value;
                          setSegments(newSegments);
                        }}
-                       className="w-full min-h-[40px] p-2 bg-transparent focus:bg-white focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple outline-none border border-transparent hover:border-gray-300 rounded-lg font-medium text-sm transition-all resize-y mt-1"
+                       className="w-full min-h-[40px] p-2 bg-transparent text-gray-900 focus:bg-white focus:ring-2 focus:ring-brand-purple/20 focus:border-brand-purple outline-none border border-transparent hover:border-gray-300 rounded-lg font-medium text-sm transition-all resize-y mt-1"
                        placeholder="Enter text..."
                      />
                   </div>
@@ -219,7 +219,7 @@ export default function EditableText({
             <textarea
               value={tempValue}
               onChange={(e) => setTempValue(e.target.value)}
-              className="w-full h-48 p-4 border border-gray-300 rounded-xl font-medium text-sm bg-gray-50 focus:bg-white focus:ring-4 focus:ring-brand-purple/20 focus:border-brand-purple outline-none transition-all resize-y"
+              className="w-full h-48 p-4 border border-gray-300 rounded-xl font-medium text-sm text-gray-900 bg-gray-50 focus:bg-white focus:ring-4 focus:ring-brand-purple/20 focus:border-brand-purple outline-none transition-all resize-y"
               placeholder="Enter text here..."
             />
           )}

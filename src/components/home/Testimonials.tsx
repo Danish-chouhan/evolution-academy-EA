@@ -35,13 +35,16 @@ export default function Testimonials() {
         body: formData,
       });
 
-      if (!response.ok) throw new Error('Upload failed');
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.error || 'Upload failed');
+      }
       const data = await response.json();
       
       updateContent('testim-video-url', data.url);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error uploading video:', error);
-      alert('Failed to upload video');
+      alert(error.message || 'Failed to upload video');
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
