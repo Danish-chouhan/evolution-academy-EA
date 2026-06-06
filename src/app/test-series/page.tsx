@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: 'Benchmark your preparation with India\'s most authentic mock tests designed by expert faculty.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function TestSeriesPage() {
   await connectDB();
   const pageContent = await Content.find({ page: 'test-series', section: 'global' }).lean();

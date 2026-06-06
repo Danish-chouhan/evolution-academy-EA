@@ -23,6 +23,8 @@ export const metadata: Metadata = {
   description: 'Online learning platform jo comprehensive study materials, live classes, aur test series provide karta hai JEE, NEET, aur Boards ke liye.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   await connectDB();
   const pageContent = await Content.find({ page: 'home', section: 'global' }).lean();

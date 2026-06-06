@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: 'Historic results 2024 from Evolution Academy.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function ResultsPage() {
   await connectDB();
   const pageContent = await Content.find({ page: 'results', section: 'global' }).lean();

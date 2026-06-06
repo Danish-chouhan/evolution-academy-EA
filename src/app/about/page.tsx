@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: 'Democratizing Education for Bharat',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function AboutPage() {
   await connectDB();
   const pageContent = await Content.find({ page: 'about', section: 'global' }).lean();

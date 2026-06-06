@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: 'Join India\'s most affordable live & recorded classes to crack JEE, NEET, and Board exams.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function BatchesPage() {
   await connectDB();
   const pageContent = await Content.find({ page: 'batches', section: 'global' }).lean();

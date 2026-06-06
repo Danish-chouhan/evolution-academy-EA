@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Access India's largest collection of NCERT solutions, previous year papers, high-yield notes, and mock tests.",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function StudyMaterialPage() {
   await connectDB();
   const pageContent = await Content.find({ page: 'study-material', section: 'global' }).lean();

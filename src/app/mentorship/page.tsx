@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: '1-on-1 Mentorship programs for competitive exams.',
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function MentorshipPage() {
   await connectDB();
   const pageContent = await Content.find({ page: 'mentorship', section: 'global' }).lean();

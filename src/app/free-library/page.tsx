@@ -5,6 +5,8 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import FreeLibraryContent from '@/components/free-library/FreeLibraryContent';
 
+export const dynamic = 'force-dynamic';
+
 export default async function FreeLibraryPage() {
   await connectDB();
   const pageContent = await Content.find({ page: 'free-library', section: 'global' }).lean();
