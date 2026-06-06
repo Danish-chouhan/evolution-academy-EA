@@ -25,6 +25,14 @@ export default function Testimonials() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Cloudinary free tier limit is 100MB for videos.
+    const maxSizeInBytes = 99 * 1024 * 1024; // 99 MB
+    if (file.size > maxSizeInBytes) {
+      alert(`Video size (${(file.size / (1024 * 1024)).toFixed(1)} MB) is too large. Please upload a video smaller than 100MB.`);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+
     try {
       setIsUploading(true);
       const formData = new FormData();
