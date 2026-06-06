@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   description: "Online learning platform jo JEE, NEET, aur Boards ke liye comprehensive study materials, live classes, aur test series provide karta hai.",
 };
 
+export const viewport: import("next").Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
