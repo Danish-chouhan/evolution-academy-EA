@@ -84,9 +84,29 @@ export default function Testimonials() {
         <div className="flex flex-col lg:flex-row gap-8 items-stretch">
           
           {/* Main Video Testimonial - Lightened */}
-          <div className="lg:w-1/3">
+          <div className="lg:w-1/3 flex flex-col gap-3">
+            
+            {isAdmin && (
+              <div className="flex justify-end">
+                <input 
+                  type="file" 
+                  accept="video/*" 
+                  ref={fileInputRef} 
+                  className="hidden" 
+                  onChange={handleFileChange} 
+                />
+                <button 
+                  onClick={handleEditVideoUrl}
+                  disabled={isUploading}
+                  className="bg-brand-purple text-white p-2 rounded-lg shadow-md hover:bg-purple-700 flex items-center gap-2 text-xs font-bold px-4 disabled:opacity-50 transition-colors"
+                >
+                  <Pencil size={14} /> {isUploading ? 'Uploading Video...' : 'Upload Video'}
+                </button>
+              </div>
+            )}
+
             <div 
-              className="bg-black rounded-3xl overflow-hidden h-full min-h-[300px] relative group shadow-md border-2 border-gray-100 flex flex-col cursor-pointer"
+              className="bg-black rounded-3xl overflow-hidden h-full min-h-[300px] relative group shadow-md border-2 border-gray-100 flex flex-col cursor-pointer flex-grow"
               onClick={handleToggleMute}
             >
               <video 
@@ -102,40 +122,21 @@ export default function Testimonials() {
               <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 pointer-events-none transition-opacity duration-300 ${isMuted ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                 
                 {/* Center Unmute/Mute Icon */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-110 transition-transform bg-white/20 p-4 rounded-full backdrop-blur-sm">
-                  {isMuted ? (
+                {isMuted && (
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-110 transition-transform bg-white/20 p-4 rounded-full backdrop-blur-sm">
                     <VolumeX size={48} className="text-white drop-shadow-lg" />
-                  ) : (
-                    <Volume2 size={48} className="text-white drop-shadow-lg" />
-                  )}
-                </div>
-                
-                {isAdmin && (
-                  <>
-                    <input 
-                      type="file" 
-                      accept="video/*" 
-                      ref={fileInputRef} 
-                      className="hidden" 
-                      onChange={handleFileChange} 
-                    />
-                    <button 
-                      onClick={handleEditVideoUrl}
-                      disabled={isUploading}
-                      className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-lg text-brand-purple hover:bg-white pointer-events-auto z-50 flex items-center gap-1 text-xs font-bold px-3 disabled:opacity-50"
-                    >
-                      <Pencil size={14} /> {isUploading ? 'Uploading...' : 'Upload Video'}
-                    </button>
-                  </>
+                  </div>
                 )}
 
                 <div className="text-white relative z-10 pointer-events-auto" onClick={(e) => { e.stopPropagation(); }}>
                   <div className="font-bold text-lg leading-tight mb-1 drop-shadow-md">
                     <EditableText contentKey="testim-video-title" defaultText="2 Saal Mein Sirf 2 Hi Cheezain Ki!" />
                   </div>
-                  <div className="text-xs text-brand-orange font-bold uppercase tracking-wide">
-                    <EditableText contentKey="testim-video-subtitle" defaultText="Click to unmute" />
-                  </div>
+                  {isMuted && (
+                    <div className="text-xs text-brand-orange font-bold uppercase tracking-wide">
+                      <EditableText contentKey="testim-video-subtitle" defaultText="Click to unmute" />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
