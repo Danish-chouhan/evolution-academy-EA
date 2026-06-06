@@ -47,7 +47,7 @@ export default function AdminEditResultsPage() {
 
   return (
     <ContentProvider initialContent={content} page="results" isAdmin={true}>
-      <div className="fixed top-0 left-0 w-full bg-red-600 text-white text-center py-2 z-[100] font-bold shadow-md flex justify-between px-8">
+      <div className="w-full bg-red-600 text-white text-center py-2 z-[100] font-bold shadow-md flex flex-col sm:flex-row justify-between items-center px-4 sm:px-8 gap-2 text-xs sm:text-base">
         <span>Admin Visual Editor Mode - Click any text or image to edit!</span>
         <button onClick={() => router.push('/admin/dashboard')} className="underline hover:text-red-200">Exit to Dashboard</button>
       </div>
