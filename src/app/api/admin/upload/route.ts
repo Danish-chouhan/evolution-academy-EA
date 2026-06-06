@@ -17,6 +17,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
+    // Extract optional resource_type parameter
+    const resourceType = (formData.get('resource_type') as string) || 'auto';
+
     // Convert file to base64 data URI
     const bytes = await file.arrayBuffer();
     const base64Data = Buffer.from(bytes).toString('base64');
@@ -25,6 +28,7 @@ export async function POST(request: Request) {
     // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(fileUri, {
       folder: 'portfolio-evolution',
+      resource_type: resourceType as 'auto' | 'image' | 'video' | 'raw',
     });
 
     return NextResponse.json({ url: result.secure_url });

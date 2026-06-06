@@ -1,9 +1,61 @@
-import { PlayCircle } from 'lucide-react';
-import Link from 'next/link';
+'use client';
+
+import { PlayCircle, Pencil, VolumeX, Volume2 } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { useContent } from '../admin/ContentProvider';
 import EditableText from '../admin/EditableText';
-import EditableImage from '../admin/EditableImage';
 
 export default function Testimonials() {
+  const { content, isAdmin, updateContent } = useContent();
+  const [isMuted, setIsMuted] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  const videoUrl = content['testim-video-url'] || 'https://res.cloudinary.com/demo/video/upload/dog.mp4';
+
+  const handleEditVideoUrl = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('resource_type', 'video');
+
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error('Upload failed');
+      const data = await response.json();
+      
+      updateContent('testim-video-url', data.url);
+    } catch (error) {
+      console.error('Error uploading video:', error);
+      alert('Failed to upload video');
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleToggleMute = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsMuted(videoRef.current.muted);
+    }
+  };
+
   const reviews = [
     { id: 1, name: 'Aman Kumar', exam: 'JEE Mains', text: 'Evolution Academy ne mujhe JEE clear karne ka swapna pura karne mein madad ki. Teachers amazing hain aur content top-notch hai.', img: 'https://ui-avatars.com/api/?name=Aman+Kumar&background=random' },
     { id: 2, name: 'Priya Sharma', exam: 'NEET', text: 'NEET preparation ke liye best platform. Test series actual exam ke liye bahut relevant hai. Mera success <span class="inline-flex items-center gap-1 align-middle"><img src="/images/logo.png" class="h-4 w-auto object-contain"/></span> ke kaaran hai.', img: 'https://ui-avatars.com/api/?name=Priya+Sharma&background=random' },
@@ -33,25 +85,60 @@ export default function Testimonials() {
           
           {/* Main Video Testimonial - Lightened */}
           <div className="lg:w-1/3">
-            <Link href="/coming-soon?feature=Watch Full Story" className="bg-white rounded-3xl overflow-hidden h-full min-h-[300px] relative group cursor-pointer shadow-md border-2 border-gray-100 block">
-              <EditableImage 
-                contentKey="testim-video-img"
-                defaultSrc="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&q=80" 
-                alt="Video Thumbnail" 
-                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" 
+            <div 
+              className="bg-black rounded-3xl overflow-hidden h-full min-h-[300px] relative group shadow-md border-2 border-gray-100 flex flex-col cursor-pointer"
+              onClick={handleToggleMute}
+            >
+              <video 
+                ref={videoRef}
+                src={videoUrl} 
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute top-0 left-0 w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/20 to-transparent flex flex-col justify-end p-6 pointer-events-none">
-                <PlayCircle size={64} className="text-brand-purple drop-shadow-sm absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-110 transition-transform bg-white/50 rounded-full backdrop-blur-sm pointer-events-auto" />
-                <div className="text-gray-900 relative z-10 pointer-events-auto">
-                  <div className="font-bold text-lg leading-tight mb-1 drop-shadow-[0_0_10px_rgba(255,255,255,1)]">
+
+              <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 pointer-events-none transition-opacity duration-300 ${isMuted ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
+                
+                {/* Center Unmute/Mute Icon */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover:scale-110 transition-transform bg-white/20 p-4 rounded-full backdrop-blur-sm">
+                  {isMuted ? (
+                    <VolumeX size={48} className="text-white drop-shadow-lg" />
+                  ) : (
+                    <Volume2 size={48} className="text-white drop-shadow-lg" />
+                  )}
+                </div>
+                
+                {isAdmin && (
+                  <>
+                    <input 
+                      type="file" 
+                      accept="video/*" 
+                      ref={fileInputRef} 
+                      className="hidden" 
+                      onChange={handleFileChange} 
+                    />
+                    <button 
+                      onClick={handleEditVideoUrl}
+                      disabled={isUploading}
+                      className="absolute top-4 right-4 bg-white/90 p-2 rounded-full shadow-lg text-brand-purple hover:bg-white pointer-events-auto z-50 flex items-center gap-1 text-xs font-bold px-3 disabled:opacity-50"
+                    >
+                      <Pencil size={14} /> {isUploading ? 'Uploading...' : 'Upload Video'}
+                    </button>
+                  </>
+                )}
+
+                <div className="text-white relative z-10 pointer-events-auto" onClick={(e) => { e.stopPropagation(); }}>
+                  <div className="font-bold text-lg leading-tight mb-1 drop-shadow-md">
                     <EditableText contentKey="testim-video-title" defaultText="2 Saal Mein Sirf 2 Hi Cheezain Ki!" />
                   </div>
-                  <div className="text-xs text-brand-purple font-bold">
-                    <EditableText contentKey="testim-video-subtitle" defaultText="Pura Story Dekho" />
+                  <div className="text-xs text-brand-orange font-bold uppercase tracking-wide">
+                    <EditableText contentKey="testim-video-subtitle" defaultText="Click to unmute" />
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
           </div>
 
           {/* Text Testimonials Grid */}
