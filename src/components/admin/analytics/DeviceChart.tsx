@@ -25,7 +25,7 @@ export default function DeviceChart({ data }: { data: any[] }) {
           <Tooltip 
             contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: '1px solid #f3f4f6', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
             itemStyle={{ fontWeight: 'bold' }}
-            formatter={(value: number) => `${value} Views`}
+            formatter={(value: any) => `${value} Views`}
           />
           <Legend verticalAlign="bottom" height={36} iconType="circle" />
         </PieChart>

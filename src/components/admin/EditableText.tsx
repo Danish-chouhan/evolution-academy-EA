@@ -8,7 +8,7 @@ type EditableTextProps = {
   contentKey: string;
   defaultText: string;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
   allowHtml?: boolean;
 };
 

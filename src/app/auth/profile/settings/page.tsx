@@ -11,7 +11,7 @@ export default function SettingsPage() {
     marketing: true,
   });
 
-  const handleToggle = (key: string) => {
+  const handleToggle = (key: keyof typeof notifications) => {
     setNotifications(prev => ({
       ...prev,
       [key]: !prev[key]

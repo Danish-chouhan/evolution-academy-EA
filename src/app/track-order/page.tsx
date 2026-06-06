@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { Search, Package, Truck, CheckCircle2, MapPin } from 'lucide-react';
+import { Search, Package, Truck, CheckCircle2, MapPin, XCircle } from 'lucide-react';
 
 function TrackOrderContent() {
   const searchParams = useSearchParams();
