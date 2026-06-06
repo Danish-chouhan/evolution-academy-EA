@@ -4,6 +4,7 @@ import { PlayCircle, Pencil, VolumeX, Volume2 } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { useContent } from '../admin/ContentProvider';
 import EditableText from '../admin/EditableText';
+import { uploadVideoAction } from '@/app/actions/uploadAction';
 
 export default function Testimonials() {
   const { content, isAdmin, updateContent } = useContent();
@@ -30,18 +31,13 @@ export default function Testimonials() {
       formData.append('file', file);
       formData.append('resource_type', 'video');
 
-      const response = await fetch('/api/admin/upload', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await uploadVideoAction(formData);
 
-      if (!response.ok) {
-        const errData = await response.json();
-        throw new Error(errData.error || 'Upload failed');
+      if (!response.success) {
+        throw new Error(response.error || 'Upload failed');
       }
-      const data = await response.json();
       
-      updateContent('testim-video-url', data.url);
+      updateContent('testim-video-url', response.url);
     } catch (error: any) {
       console.error('Error uploading video:', error);
       alert(error.message || 'Failed to upload video');
