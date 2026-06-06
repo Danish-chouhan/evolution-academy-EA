@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Phone, Grid, ChevronDown, User, Search, Menu, X, LogOut, BookOpen } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import CategoryDropdown from './CategoryDropdown';
+import CategoryDropdown, { CATEGORIES } from './CategoryDropdown';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -12,6 +12,7 @@ export default function Navbar() {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
   const [isMoreMobileOpen, setIsMoreMobileOpen] = useState(false);
+  const [isCategoriesMobileOpen, setIsCategoriesMobileOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -65,9 +66,9 @@ export default function Navbar() {
                 {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
 
-              <Link href="/" className="flex items-center gap-3">
-                <img src="/images/logo.png" alt="Evolution Academy Logo" className="w-10 sm:w-12 h-auto object-contain" />
-                <img src="/images/name.jpeg" alt="Evolution Academy" className="h-6 sm:h-8 w-auto object-contain" />
+              <Link href="/" className="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
+                <img src="/images/logo.png" alt="Evolution Academy Logo" className="w-8 sm:w-10 lg:w-12 h-auto object-contain" />
+                <img src="/images/name.jpeg" alt="Evolution Academy" className="h-4 sm:h-6 lg:h-8 w-auto object-contain" />
               </Link>
               
               <CategoryDropdown />
@@ -204,10 +205,33 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <div className="lg:hidden absolute top-[72px] left-0 w-full bg-white border-b border-gray-200 shadow-xl overflow-hidden animate-in slide-in-from-top-2">
             <div className="flex flex-col px-4 pt-2 pb-6 space-y-1">
-              <Link onClick={() => setIsMobileMenuOpen(false)} href="/coming-soon?feature=Categories Dropdown" className="flex items-center justify-between py-3 px-4 rounded-xl text-gray-700 font-bold hover:bg-gray-50">
-                <div className="flex items-center gap-3"><Grid size={20} className="text-gray-400"/> Categories</div>
-                <ChevronDown size={18} className="text-gray-400" />
-              </Link>
+              <button onClick={() => setIsCategoriesMobileOpen(!isCategoriesMobileOpen)} className="flex items-center justify-between py-3 px-4 rounded-xl text-gray-700 font-bold hover:bg-gray-50 w-full">
+                <div className="flex items-center gap-3"><Grid size={20} className="text-gray-400"/> All Courses</div>
+                <ChevronDown size={18} className={`text-gray-400 transition-transform ${isCategoriesMobileOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              {isCategoriesMobileOpen && (
+                <div className="pl-4 ml-4 border-l-2 border-gray-100 flex flex-col space-y-1 mb-2 max-h-[50vh] overflow-y-auto custom-scrollbar">
+                  {CATEGORIES.map((cat) => (
+                    <div key={cat.id} className="py-2">
+                      <h4 className="text-sm font-bold text-gray-800 px-4 mb-2">{cat.title}</h4>
+                      <div className="flex flex-col space-y-1">
+                        {cat.items.map((item, idx) => (
+                          <Link 
+                            key={idx} 
+                            onClick={() => setIsMobileMenuOpen(false)} 
+                            href={`/coming-soon?feature=${typeof item.name === 'string' ? item.name : 'Course'}`}
+                            className="block py-2 px-4 rounded-xl text-xs text-gray-600 font-semibold hover:bg-gray-50 hover:text-brand-purple flex items-center gap-2"
+                          >
+                            <span>{'flag' in item ? item.flag : item.icon}</span>
+                            <span>{item.name}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
               <div className="h-px bg-gray-100 my-1 mx-4"></div>
               <Link onClick={() => setIsMobileMenuOpen(false)} href="/batches" className="block py-3 px-4 rounded-xl text-gray-700 font-bold hover:bg-gray-50">Batches</Link>
               <Link onClick={() => setIsMobileMenuOpen(false)} href="/results" className="block py-3 px-4 rounded-xl text-gray-700 font-bold hover:bg-gray-50">Results</Link>

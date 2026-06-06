@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { ChevronDown, ChevronRight, BookOpen, GraduationCap, Globe, Building, Code, Laptop } from 'lucide-react';
 
-const CATEGORIES = [
+export const CATEGORIES = [
   {
     id: 'competitive',
     title: 'Competitive Exams',
