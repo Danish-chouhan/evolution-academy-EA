@@ -1,7 +1,7 @@
 import React from 'react';
 import { Target, Heart, Shield, Users } from 'lucide-react';
-import { EditableText } from '@/components/admin/EditableText';
-import { EditableImage } from '@/components/admin/EditableImage';
+import EditableText from '@/components/admin/EditableText';
+import EditableImage from '@/components/admin/EditableImage';
 
 export default function AboutContent() {
   return (
