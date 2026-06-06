@@ -174,13 +174,13 @@ export default function AppDownloadPromo() {
                     opacity 
                   }}
                 >
-                   <div className="w-full h-full bg-brand-purple-light flex flex-col relative pointer-events-none">
-                      <div className="h-4 md:h-6 w-20 md:w-32 bg-gray-900 absolute top-0 left-1/2 -translate-x-1/2 rounded-b-lg md:rounded-b-xl z-20"></div>
+                   <div className="w-full h-full bg-brand-purple-light flex flex-col relative">
+                      <div className="h-4 md:h-6 w-20 md:w-32 bg-gray-900 absolute top-0 left-1/2 -translate-x-1/2 rounded-b-lg md:rounded-b-xl z-20 pointer-events-none"></div>
                       <EditableImage 
                         contentKey={slide.key}
                         defaultSrc={slide.src} 
                         alt={`App UI ${index + 1}`} 
-                        className="w-full h-full object-cover" 
+                        className="w-full h-full object-cover pointer-events-auto" 
                       />
                    </div>
                 </div>
