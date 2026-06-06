@@ -81,17 +81,17 @@ export default function AdminOrders() {
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-gray-50">Loading Orders...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex">
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col md:flex-row">
       <AdminSidebar user={user} />
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto overflow-x-hidden w-full">
         <div className="max-w-7xl mx-auto">
-          <header className="mb-8">
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Order Management</h1>
-            <p className="text-gray-500 mt-2 font-medium">Process and fulfill customer orders</p>
+          <header className="mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Order Management</h1>
+            <p className="text-gray-500 mt-1 md:mt-2 font-medium">Process and fulfill customer orders</p>
           </header>
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <table className="w-full text-left">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
+            <table className="w-full text-left min-w-[800px]">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
                   <th className="p-4 font-bold text-gray-500 text-sm">Order Info</th>

@@ -56,16 +56,16 @@ export default function AdminAnalytics() {
   const { kpi, dailyTraffic, devices, browsers, os, referrers, topPages, countries } = analyticsData;
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex">
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col md:flex-row">
       {/* Sidebar */}
       <AdminSidebar user={user} />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-8 max-w-7xl mx-auto">
-          <header className="mb-8">
-            <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Real-Time Analytics</h1>
-            <p className="text-gray-500 mt-2 font-medium">Live traffic and engagement data from the last 30 days.</p>
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto overflow-x-hidden w-full">
+        <div className="max-w-7xl mx-auto">
+          <header className="mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Real-Time Analytics</h1>
+            <p className="text-gray-500 mt-1 md:mt-2 font-medium">Live traffic and engagement data from the last 30 days.</p>
           </header>
 
           {/* Stat Cards */}

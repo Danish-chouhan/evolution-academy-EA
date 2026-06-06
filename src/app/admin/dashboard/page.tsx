@@ -39,14 +39,14 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex">
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col md:flex-row">
       {/* Sidebar */}
       <AdminSidebar user={user} />
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-8 max-w-7xl mx-auto">
-          <header className="mb-10 flex justify-between items-center bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto overflow-x-hidden w-full">
+        <div className="max-w-7xl mx-auto">
+          <header className="mb-6 md:mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 md:p-6 rounded-2xl border border-gray-100 shadow-sm">
             <div>
               <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Visual UI Editor</h1>
               <p className="text-gray-500 mt-2 font-medium">Select a page below to edit its text and images directly on the live UI.</p>

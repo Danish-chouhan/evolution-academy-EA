@@ -103,13 +103,13 @@ export default function AdminProducts() {
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-gray-50">Loading Products...</div>;
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 flex">
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col md:flex-row">
       <AdminSidebar user={user} />
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto overflow-x-hidden w-full">
         <div className="max-w-6xl mx-auto">
-          <header className="flex justify-between items-center mb-8">
+          <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
             <div>
-              <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Products Management</h1>
+              <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">Products Management</h1>
               <p className="text-gray-500 mt-2 font-medium">Manage your store inventory</p>
             </div>
             <button onClick={() => openEditor()} className="flex items-center gap-2 bg-brand-purple text-white px-6 py-3 rounded-xl font-bold shadow-lg shadow-purple-500/20 hover:bg-brand-purple/90 transition-colors">
@@ -184,8 +184,8 @@ export default function AdminProducts() {
             </div>
           )}
 
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <table className="w-full text-left">
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-x-auto">
+            <table className="w-full text-left min-w-[800px]">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
                   <th className="p-4 font-bold text-gray-500 text-sm">Product</th>
